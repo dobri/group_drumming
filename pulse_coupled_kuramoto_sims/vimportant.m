@@ -1,17 +1,20 @@
 %% Setting the Stage
 
 % dd
-global f0 f w pulse stim noise kmodel K
+global f0 f w pulse stim noise K
+global kmodel
 
 %dd
 % N = 8;                       %Number of oscillators/drummers
 
+kmodel = 1;                  %Which model to run (0 = OG, 1 = Mine)
 f0 = 2;                      %Mean natural freq of oscillators, 2Hz tapping
-f = f0 + sigma*randn(N,1);     %Each drummer's freq, even distribution around f0, SD = .05 % dd
+% f = f0 + sigma_freqs*randn(N,1);     %Each drummer's freq, even distribution around f0, SD = .05 % dd
+f = f0 + f0*freq_range*(randi(100,N,1)./100*2-1);
 w = f*2*pi;                  %Each drummer's radian freq  (omega)
 
 fs = 500;                    %Stimulus sampling rate, 500Hz/sec
-tspan = [0 30];              %Time span in seconds
+tspan = [0 100];              %Time span in seconds
 
 %Defining the drum PULSE using gamma pdf parameters
 pulse.fs = fs;
@@ -28,11 +31,10 @@ pulse.N = length(pulse.t);
 stim.fs = fs;
 stim.t = (tspan(1):1/stim.fs:tspan(end));
 stim.N = length(stim.t);
-stim.x = zeros(N,stim.N);
 
 %Defining the NOISE
 % dd
-sd = the_other_sigma*2*pi;                    %Define SD of noise (in units of phase)
+sd = sigma_phase_noise*2*pi;                    %Define SD of noise (in units of phase)
 noise.fs = fs;
 noise.t = stim.t;
 noise.x = sd*randn(N, stim.N);  %Diff noise for each drummer to length of stimulus
@@ -51,11 +53,16 @@ options = odeset('MaxStep',1/stim.fs,'Events',@EventsLana);
 %% Running the Simulation
 
 disp('Calculating solo...')
+    stim.x = zeros(N,stim.N);
     K = 0;                      %run with no coupling, solo condition
     thefunpart;                 %runs the actual ode integrator
     stdi_0 = stdi;
     
     % dd
+    counter = counter + 1;
+    TEs.te{counter,1} = TE;
+    TEs.cond(counter,:) = [N K rx];
+
     cvs{rx,1} = STD./cell2mat(ME);
     cvs{rx,2} = stdg/meg;
     mes{rx,1} = cell2mat(ME);
@@ -69,6 +76,10 @@ disp('Calculating group...')
     thefunpart;
     
     % dd
+    counter = counter + 1;
+    TEs.te{counter,1} = TE;
+    TEs.cond(counter,:) = [N K rx];
+
     cvs{rx,3} = STD./cell2mat(ME);
     cvs{rx,4} = stdg/meg;
     mes{rx,3} = cell2mat(ME);

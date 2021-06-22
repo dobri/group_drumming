@@ -1,18 +1,17 @@
-%% Setting the Stage
+clear
 
-global kmodel K
+%% Setting the Stage
 %Everything else is defined in 'vimportant'
 
 global N
 
-Nruns = 1e2;                   %Number of runs
-kmodel = 1;                  %Which model to run (0 = OG, 1 = Mine)
-sigma = .2; % dd
-the_other_sigma = 2; % dd
-Kc = 4;                    %Coupling strength 4.5
-K = 0;
+Nruns = 1e1;                 %Number of runs
+% sigma_freqs = .2; % dd
+freq_range = .2; % upper and lower range of uniform distribution, where range is propotion of f0.
+sigma_phase_noise = 1; % dd
+Kc = 5;                      %Coupling strength 4.5
 
-CV1 = NaN+zeros(Nruns,3);    %Create matrix of zeros for covariation
+CV1 = NaN + zeros(Nruns,3);  %Create matrix of zeros for covariation
 R1 = [];                     %Create matrix for means & stdev
 CLAG0 = [];                  %Create empty matrix for lag 0 correlations
 CLAG1 = [];                  %Create empty matrix for lag 1 correlations
@@ -22,9 +21,12 @@ CLAG1 = [];                  %Create empty matrix for lag 1 correlations
 % dd
 clear cvs mes Ks Ns;
 REZ = [];
+clear TEs;
+counter = 0;
 for N = [2 4 8] % dd
     
     for rx = 1:Nruns
+        
         disp(rx)
         vimportant
         R1 = [R1, mean(r)];
@@ -58,5 +60,5 @@ boxplot(REZ(:,5),REZ(:,[1 2 3]))
 
 REZ = array2table(REZ);
 REZ.Properties.VariableNames = {'N','K','Agg','ITI','cv'};
-writetable(REZ,['pulse_coupled_kuramoto_' datestr(now,'yyyymmdd-HHMMSS') '.csv'],'Delimiter',',')
+% writetable(REZ,['pulse_coupled_kuramoto_' datestr(now,'yyyymmdd-HHMMSS') '.csv'],'Delimiter',',')
 

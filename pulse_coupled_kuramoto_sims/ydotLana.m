@@ -1,7 +1,8 @@
 function dydt = ydotLana(t,y)
 %% Dynamics Pulse Coupling Gamma Distribution
 
-global N f0 f w e pulse stim noise kmodel K
+% global N f0 f w e pulse stim noise kmodel K
+global N w stim noise kmodel K
     
 %   Mean field
      z = exp(1i*y);  % Wrapping theta around the circle
