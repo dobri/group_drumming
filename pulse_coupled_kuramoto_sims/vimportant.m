@@ -14,7 +14,7 @@ f = f0 + f0*freq_range*(randi(100,N,1)./100*2-1);
 w = f*2*pi;                  %Each drummer's radian freq  (omega)
 
 fs = 500;                    %Stimulus sampling rate, 500Hz/sec
-tspan = [0 100];              %Time span in seconds
+% tspan = [0 100];              %Time span in seconds % dd
 
 %Defining the drum PULSE using gamma pdf parameters
 pulse.fs = fs;

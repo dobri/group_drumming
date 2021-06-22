@@ -1,4 +1,4 @@
-plotting = 0;
+plotting = 1;
 
 %% Virtual aggregate group. 
 % Use that as reference against which to align the individual drum hits.

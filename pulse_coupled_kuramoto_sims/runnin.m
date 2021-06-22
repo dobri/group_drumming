@@ -1,5 +1,12 @@
 clear
 
+%{
+I suspect the difference comes from the way the feedback is updated and 
+delivered in the two models. In the one case the feedback is constantly ON 
+but is updated discretely. In the other case, the feedback is ON and 
+updated only during the pulse, right?
+%}
+
 %% Setting the Stage
 %Everything else is defined in 'vimportant'
 
@@ -8,8 +15,9 @@ global N
 Nruns = 1e1;                 %Number of runs
 % sigma_freqs = .2; % dd
 freq_range = .2; % upper and lower range of uniform distribution, where range is propotion of f0.
-sigma_phase_noise = 1; % dd
+sigma_phase_noise = 2; % dd
 Kc = 5;                      %Coupling strength 4.5
+tspan = [0 30];              %Time span in seconds % dd
 
 CV1 = NaN + zeros(Nruns,3);  %Create matrix of zeros for covariation
 R1 = [];                     %Create matrix for means & stdev
