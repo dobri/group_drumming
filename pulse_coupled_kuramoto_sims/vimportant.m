@@ -52,7 +52,8 @@ options = odeset('MaxStep',1/stim.fs,'Events',@EventsLana);
 
 %% Running the Simulation
 
-disp('Calculating solo...')
+if 0
+    disp('Calculating solo...')
     stim.x = zeros(N,stim.N);
     K = 0;                      %run with no coupling, solo condition
     thefunpart;                 %runs the actual ode integrator
@@ -62,13 +63,15 @@ disp('Calculating solo...')
     counter = counter + 1;
     TEs.te{counter,1} = TE;
     TEs.cond(counter,:) = [N K rx];
-
+    
     cvs{rx,1} = STD./cell2mat(ME);
     cvs{rx,2} = stdg/meg;
     mes{rx,1} = cell2mat(ME);
     mes{rx,2} = meg;
     Ks(rx,1) = K;
     Ns(rx,1) = N;
+end
+
 
 disp('Calculating group...')
     stim.x = zeros(N,stim.N);   %reinitialize stimulus from previous solo

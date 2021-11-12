@@ -1,6 +1,7 @@
 %% Run the Function ODE23
 
 [t,y,te,ye,ie] = ode23(@ydotLana,tspan,y0,options); %will only work if define K
+% [t,y,te,ye,ie] = ode23_ed(@ydotLana,tspan,y0,options); %will only work if define K
                                                     %idx inside not being defined?
     %each drummer is a diff differential equation
     %ie is dimension for each event, defines which drummer event is for
