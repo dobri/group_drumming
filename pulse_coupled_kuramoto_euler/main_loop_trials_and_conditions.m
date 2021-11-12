@@ -6,10 +6,10 @@ ntrials = 1e2;
 % condition parameters
 Ns = [2 4 8];
 % Ks = [0 5];
-Ks = 6;
+Ks = 5;
 
 % fixed parameters
-sr = 1e3;
+sr = 1e2;
 sigma = 2;
 gammain = .5;
 center_omega = 2*2*pi;
