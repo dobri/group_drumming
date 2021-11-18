@@ -5,8 +5,8 @@ ntrials = 1e2;
 
 % condition parameters
 Ns = [2 4 8];
-% Ks = [0 5];
-Ks = 5;
+Ks = [0 6]; % [0 5]
+%Ks = 6; % 6 at 1e2
 
 % fixed parameters
 sr = 1e2;
@@ -20,6 +20,7 @@ for N = Ns
     for K = Ks
         for tr = 1:ntrials
             [THETA,t,PSI,EVENTS]=sim_pulse_kuramoto_euler(N,K,sigma,gammain,center_omega,sr,plotting);
+            if plotting == 1;pause;end
             for c = 1:numel(EVENTS)
                 counter = counter + 1;
                 REZ(counter,:) = [N K 0 mean(diff(EVENTS{c})) std(diff(EVENTS{c}))/mean(diff(EVENTS{c}))];
